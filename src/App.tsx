@@ -24,12 +24,10 @@ const initialTodos: TodoItem[] = [
 
 const App = () => {
   const [todos, setTodos] = useState<TodoItem[]>(initialTodos);
+  const [newTitle, setNewTitle] = useState('');
 
   const parentTodos = todos.filter((todo) => todo.parentId === null);
-
-  // DnD用のセンサー
   const sensors = useSensors(useSensor(PointerSensor));
-
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
 
@@ -49,9 +47,46 @@ const App = () => {
     }
   };
 
+  const handleAddTask = () => {
+    if (!newTitle.trim()) return;
+
+    const newTask: TodoItem = {
+      id: Date.now(), // ユニークな数値IDとして利用
+      title: newTitle.trim(),
+      parentId: null, // 今回は親タスクとして追加
+    };
+
+    setTodos((prev) => [...prev, newTask]);
+    setNewTitle('');
+  };
+
   return (
     <div className="max-w-xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4 text-blue-600">階層ToDoリスト</h1>
+
+      {/* フォーム */}
+      <div className="mb-6">
+        <label className="block mb-1 text-sm font-medium">
+          新しいタスクの追加
+        </label>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+            className="flex-1 border border-gray-300 rounded px-3 py-2"
+            placeholder="タスク名を入力"
+          />
+          <button
+            onClick={handleAddTask}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+          >
+            追加
+          </button>
+        </div>
+      </div>
+
+      {/* ToDo表示 + DnD */}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
