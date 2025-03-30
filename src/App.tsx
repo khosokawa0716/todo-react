@@ -1,5 +1,6 @@
-import { TodoItem } from './types';
 import { useState } from 'react';
+import { TodoItem } from './types';
+import { TodoItemTree } from './components/TodoItemTree';
 import {
   DndContext,
   closestCenter,
@@ -9,11 +10,9 @@ import {
 } from '@dnd-kit/core';
 import {
   SortableContext,
-  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
   arrayMove,
 } from '@dnd-kit/sortable';
-import { SortableItem } from './SortableItem.tsx';
 
 const initialTodos: TodoItem[] = [
   { id: 1, title: '親タスク1', parentId: null },
@@ -64,31 +63,7 @@ const App = () => {
         >
           <ul className="space-y-4">
             {parentTodos.map((parent) => (
-              <SortableItem key={parent.id} id={parent.id} title={parent.title}>
-                <ul className="pl-4 space-y-2">
-                  {todos
-                    .filter((child) => child.parentId === parent.id) // 子タスク
-                    .map((child) => (
-                      <li key={child.id} className="bg-gray-100 p-2 rounded">
-                        {child.title}
-                        <ul className="pl-4 mt-1 space-y-1">
-                          {todos
-                            .filter(
-                              (grandChild) => grandChild.parentId === child.id
-                            ) // 孫タスク
-                            .map((grandChild) => (
-                              <li
-                                key={grandChild.id}
-                                className="bg-blue-50 text-sm p-2 rounded"
-                              >
-                                {grandChild.title}
-                              </li>
-                            ))}
-                        </ul>
-                      </li>
-                    ))}
-                </ul>
-              </SortableItem>
+              <TodoItemTree key={parent.id} todo={parent} allTodos={todos} />
             ))}
           </ul>
         </SortableContext>
