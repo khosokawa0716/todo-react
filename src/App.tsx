@@ -1,26 +1,26 @@
-import { TodoItem } from "./types";
-import { useState } from "react";
+import { TodoItem } from './types';
+import { useState } from 'react';
 import {
   DndContext,
   closestCenter,
   PointerSensor,
   useSensor,
   useSensors,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
   arrayMove,
-} from "@dnd-kit/sortable";
-import { SortableItem } from "./SortableItem.tsx";
+} from '@dnd-kit/sortable';
+import { SortableItem } from './SortableItem.tsx';
 
 const initialTodos: TodoItem[] = [
-  { id: 1, title: "親タスク1", parentId: null },
-  { id: 2, title: "子タスク1-1", parentId: 1 },
-  { id: 3, title: "子タスク1-2", parentId: 1 },
-  { id: 4, title: "親タスク2", parentId: null },
-  { id: 5, title: "孫タスク1-1-1", parentId: 2 },
+  { id: 1, title: '親タスク1', parentId: null },
+  { id: 2, title: '子タスク1-1', parentId: 1 },
+  { id: 3, title: '子タスク1-2', parentId: 1 },
+  { id: 4, title: '親タスク2', parentId: null },
+  { id: 5, title: '孫タスク1-1-1', parentId: 2 },
 ];
 
 const App = () => {
@@ -51,8 +51,8 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h1>階層ToDoリスト</h1>
+    <div className="max-w-xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-4 text-blue-600">階層ToDoリスト</h1>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
