@@ -62,22 +62,27 @@ const App = () => {
           items={parentTodos.map((todo) => todo.id)}
           strategy={verticalListSortingStrategy}
         >
-          <ul>
+          <ul className="space-y-4">
             {parentTodos.map((parent) => (
               <SortableItem key={parent.id} id={parent.id} title={parent.title}>
-                <ul>
+                <ul className="pl-4 space-y-2">
                   {todos
                     .filter((child) => child.parentId === parent.id) // 子タスク
                     .map((child) => (
-                      <li key={child.id}>
+                      <li key={child.id} className="bg-gray-100 p-2 rounded">
                         {child.title}
-                        <ul>
+                        <ul className="pl-4 mt-1 space-y-1">
                           {todos
                             .filter(
                               (grandChild) => grandChild.parentId === child.id
                             ) // 孫タスク
                             .map((grandChild) => (
-                              <li key={grandChild.id}>{grandChild.title}</li>
+                              <li
+                                key={grandChild.id}
+                                className="bg-blue-50 text-sm p-2 rounded"
+                              >
+                                {grandChild.title}
+                              </li>
                             ))}
                         </ul>
                       </li>
