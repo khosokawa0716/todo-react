@@ -69,6 +69,12 @@ const App = () => {
     setTodos((prev) => [...prev, newTask]);
   };
 
+  const handleUpdateTitle = (id: number, newTitle: string) => {
+    setTodos((prev) =>
+      prev.map((todo) => (todo.id === id ? { ...todo, title: newTitle } : todo))
+    );
+  };
+
   return (
     <div className="max-w-xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4 text-blue-600">階層ToDoリスト</h1>
@@ -112,6 +118,7 @@ const App = () => {
                 todo={parent}
                 allTodos={todos}
                 onAddChild={handleAddChild}
+                onUpdateTitle={handleUpdateTitle}
               />
             ))}
           </ul>
