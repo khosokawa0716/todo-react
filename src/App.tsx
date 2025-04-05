@@ -61,8 +61,6 @@ const App = () => {
   };
 
   const handleAddChild = (parentId: number) => {
-    console.log('called handleAddChild');
-    console.log(parentId);
     const newTask: TodoItem = {
       id: Date.now(),
       title: '新しい子タスク',
