@@ -60,6 +60,17 @@ const App = () => {
     setNewTitle('');
   };
 
+  const handleAddChild = (parentId: number) => {
+    console.log('called handleAddChild');
+    console.log(parentId);
+    const newTask: TodoItem = {
+      id: Date.now(),
+      title: '新しい子タスク',
+      parentId,
+    };
+    setTodos((prev) => [...prev, newTask]);
+  };
+
   return (
     <div className="max-w-xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4 text-blue-600">階層ToDoリスト</h1>
@@ -98,7 +109,12 @@ const App = () => {
         >
           <ul className="space-y-4">
             {parentTodos.map((parent) => (
-              <TodoItemTree key={parent.id} todo={parent} allTodos={todos} />
+              <TodoItemTree
+                key={parent.id}
+                todo={parent}
+                allTodos={todos}
+                onAddChild={handleAddChild}
+              />
             ))}
           </ul>
         </SortableContext>
