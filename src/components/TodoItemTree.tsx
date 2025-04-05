@@ -20,7 +20,6 @@ export const TodoItemTree = ({
   onUpdateTitle,
 }: Props) => {
   const children = allTodos.filter((t) => t.parentId === todo.id);
-  const indent = `pl-${depth * 4}`;
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: todo.id });
 
@@ -38,7 +37,7 @@ export const TodoItemTree = ({
   };
 
   return (
-    <li className={`mb-2 ${indent}`} ref={setNodeRef} style={style}>
+    <li className="mb-2 pl-2" ref={setNodeRef} style={style}>
       <div
         className={`p-2 rounded ${
           depth === 0
