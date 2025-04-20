@@ -15,11 +15,11 @@ import {
 } from '@dnd-kit/sortable';
 
 const initialTodos: TodoItem[] = [
-  { id: 1, title: '親タスク1', parentId: null },
-  { id: 2, title: '子タスク1-1', parentId: 1 },
-  { id: 3, title: '子タスク1-2', parentId: 1 },
-  { id: 4, title: '親タスク2', parentId: null },
-  { id: 5, title: '孫タスク1-1-1', parentId: 2 },
+  { id: 1, title: '親タスク1', parentId: null, isDeleted: false },
+  { id: 2, title: '子タスク1-1', parentId: 1, isDeleted: false },
+  { id: 3, title: '子タスク1-2', parentId: 1, isDeleted: false },
+  { id: 4, title: '親タスク2', parentId: null, isDeleted: false },
+  { id: 5, title: '孫タスク1-1-1', parentId: 2, isDeleted: false },
 ];
 
 const App = () => {
@@ -54,6 +54,7 @@ const App = () => {
       id: Date.now(), // ユニークな数値IDとして利用
       title: newTitle.trim(),
       parentId: null, // 今回は親タスクとして追加
+      isDeleted: false,
     };
 
     setTodos((prev) => [...prev, newTask]);
@@ -65,6 +66,7 @@ const App = () => {
       id: Date.now(),
       title: '新しい子タスク',
       parentId,
+      isDeleted: false,
     };
     setTodos((prev) => [...prev, newTask]);
   };
@@ -72,6 +74,20 @@ const App = () => {
   const handleUpdateTitle = (id: number, newTitle: string) => {
     setTodos((prev) =>
       prev.map((todo) => (todo.id === id ? { ...todo, title: newTitle } : todo))
+    );
+  };
+
+  const handleDelete = (id: number) => {
+    setTodos((prev) =>
+      prev.map((todo) => (todo.id === id ? { ...todo, isDeleted: true } : todo))
+    );
+  };
+
+  const handleRestore = (id: number) => {
+    setTodos((prev) =>
+      prev.map((todo) =>
+        todo.id === id ? { ...todo, isDeleted: false } : todo
+      )
     );
   };
 
@@ -119,6 +135,8 @@ const App = () => {
                 allTodos={todos}
                 onAddChild={handleAddChild}
                 onUpdateTitle={handleUpdateTitle}
+                onDelete={handleDelete}
+                onRestore={handleRestore}
               />
             ))}
           </ul>

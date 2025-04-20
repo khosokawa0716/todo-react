@@ -63,5 +63,7 @@ test('タスクのタイトルを編集できる', async () => {
   // 新しいタイトルが表示されていることを確認
   expect(screen.getByText('編集後のタスクタイトル')).toBeInTheDocument();
 
-  expect(screen.getByTestId('todo-1-title-container')).toHaveTextContent('編集後のタスクタイトル');
+  expect(screen.getByTestId('todo-1-title-container')).toHaveTextContent(
+    '編集後のタスクタイトル'
+  );
 });

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TodoItem } from '../types';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Pencil } from 'lucide-react';
+import { GripVertical, Pencil, Trash2 } from 'lucide-react';
 
 interface Props {
   todo: TodoItem;
@@ -10,6 +10,8 @@ interface Props {
   depth?: number;
   onAddChild: (parentId: number) => void;
   onUpdateTitle: (id: number, newTitle: string) => void;
+  onDelete: (id: number) => void;
+  onRestore: (id: number) => void;
 }
 
 export const TodoItemTree = ({
@@ -18,6 +20,8 @@ export const TodoItemTree = ({
   depth = 0,
   onAddChild,
   onUpdateTitle,
+  onDelete,
+  onRestore,
 }: Props) => {
   const children = allTodos.filter((t) => t.parentId === todo.id);
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -34,6 +38,16 @@ export const TodoItemTree = ({
   const handleSubmit = () => {
     onUpdateTitle(todo.id, editTitle.trim() || todo.title);
     setIsEditing(false);
+  };
+
+  if (todo.isDeleted) return null;
+
+  const handleDeleteClick = () => {
+    onDelete(todo.id);
+  };
+
+  const handleRestoreClick = () => {
+    onRestore(todo.id);
   };
 
   return (
@@ -80,6 +94,13 @@ export const TodoItemTree = ({
               >
                 <Pencil className="w-4 h-4" />
               </button>
+              <button
+                onClick={handleDeleteClick}
+                className="text-sm text-red-500 hover:underline"
+                aria-label="タイトルを削除"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
             </>
           )}
         </div>
@@ -101,6 +122,8 @@ export const TodoItemTree = ({
               depth={depth + 1}
               onAddChild={onAddChild}
               onUpdateTitle={onUpdateTitle}
+              onDelete={onDelete}
+              onRestore={onRestore}
             />
           ))}
         </ul>
