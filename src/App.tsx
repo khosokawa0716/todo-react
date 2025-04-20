@@ -13,6 +13,8 @@ import {
   verticalListSortingStrategy,
   arrayMove,
 } from '@dnd-kit/sortable';
+import { Undo2 } from 'lucide-react';
+
 
 const initialTodos: TodoItem[] = [
   { id: 1, title: '親タスク1', parentId: null, isDeleted: false },
@@ -91,6 +93,8 @@ const App = () => {
     );
   };
 
+  const deletedTodos = todos.filter((todo) => todo.isDeleted);
+
   return (
     <div className="max-w-xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4 text-blue-600">階層ToDoリスト</h1>
@@ -142,6 +146,30 @@ const App = () => {
           </ul>
         </SortableContext>
       </DndContext>
+      {deletedTodos.length > 0 && (
+        <div className="mt-6">
+          <h2 className="text-lg font-semibold text-gray-600 mb-2">
+            削除済みタスク
+          </h2>
+          <ul className="space-y-2">
+            {deletedTodos.map((todo) => (
+              <li
+                key={todo.id}
+                className="p-2 bg-gray-100 text-sm flex justify-between items-center rounded"
+              >
+                <span>{todo.title}</span>
+                <button
+                  onClick={() => handleRestore(todo.id)}
+                  className="text-blue-500 hover:underline text-sm"
+                  aria-label='復元'
+                >
+                  <Undo2 />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
