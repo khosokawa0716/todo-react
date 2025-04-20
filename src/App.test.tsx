@@ -43,3 +43,25 @@ test('子タスクを追加できる', async () => {
   // タスクがリストに追加されているか確認
   expect(screen.getByText('新しい子タスク')).toBeInTheDocument();
 });
+
+test('タスクのタイトルを編集できる', async () => {
+  render(<App />);
+  const user = userEvent.setup();
+
+  // 鉛筆ボタンを取得してクリック
+  const container = screen.getByTestId('todo-1-title-container');
+  const editButton = within(container).getByRole('button', {
+    name: 'タイトルを編集',
+  });
+  await user.click(editButton);
+
+  // inputに新しいタイトルを入力
+  const input = within(container).getByRole('textbox');
+  await user.clear(input);
+  await user.type(input, '編集後のタスクタイトル{enter}');
+
+  // 新しいタイトルが表示されていることを確認
+  expect(screen.getByText('編集後のタスクタイトル')).toBeInTheDocument();
+
+  expect(screen.getByTestId('todo-1-title-container')).toHaveTextContent('編集後のタスクタイトル');
+});

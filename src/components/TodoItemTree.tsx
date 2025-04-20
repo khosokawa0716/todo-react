@@ -37,8 +37,14 @@ export const TodoItemTree = ({
   };
 
   return (
-    <li className="mb-2 pl-2" ref={setNodeRef} style={style}>
+    <li
+      data-testid={`todo-${todo.id}`}
+      className="mb-2 pl-2"
+      ref={setNodeRef}
+      style={style}
+    >
       <div
+        data-testid={`todo-${todo.id}-title-container`}
         className={`p-2 rounded ${
           depth === 0
             ? 'bg-white border font-bold'
