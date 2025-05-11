@@ -3,4 +3,5 @@ export interface TodoItem {
   title: string;
   parentId: number | null;
   isDeleted: boolean | null;
+  isDone?: boolean | null;
 }

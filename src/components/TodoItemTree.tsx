@@ -12,6 +12,7 @@ interface Props {
   onUpdateTitle: (id: number, newTitle: string) => void;
   onDelete: (id: number) => void;
   onRestore: (id: number) => void;
+  onToggleDone: (id: number) => void;
 }
 
 export const TodoItemTree = ({
@@ -22,6 +23,7 @@ export const TodoItemTree = ({
   onUpdateTitle,
   onDelete,
   onRestore,
+  onToggleDone,
 }: Props) => {
   const children = allTodos.filter((t) => t.parentId === todo.id);
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -46,10 +48,6 @@ export const TodoItemTree = ({
     onDelete(todo.id);
   };
 
-  const handleRestoreClick = () => {
-    onRestore(todo.id);
-  };
-
   return (
     <li
       data-testid={`todo-${todo.id}`}
@@ -72,6 +70,12 @@ export const TodoItemTree = ({
           <span className="cursor-move" {...attributes} {...listeners}>
             <GripVertical className="w-4 h-4 text-gray-400" />
           </span>
+          <input
+            type="checkbox"
+            checked={!!todo.isDone}
+            onChange={() => onToggleDone(todo.id)}
+            className="mr-2"
+          />
           {isEditing ? (
             <input
               value={editTitle}
@@ -83,7 +87,9 @@ export const TodoItemTree = ({
             />
           ) : (
             <>
-              <span>{todo.title}</span>
+              <span className={todo.isDone ? 'line-through text-gray-400' : ''}>
+                {todo.title}
+              </span>
               <button
                 onClick={() => {
                   setEditTitle(todo.title); // 念のため再設定
@@ -124,6 +130,7 @@ export const TodoItemTree = ({
               onUpdateTitle={onUpdateTitle}
               onDelete={onDelete}
               onRestore={onRestore}
+              onToggleDone={onToggleDone}
             />
           ))}
         </ul>

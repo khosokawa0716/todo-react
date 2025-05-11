@@ -15,13 +15,30 @@ import {
 } from '@dnd-kit/sortable';
 import { Undo2 } from 'lucide-react';
 
-
 const initialTodos: TodoItem[] = [
-  { id: 1, title: '親タスク1', parentId: null, isDeleted: false },
-  { id: 2, title: '子タスク1-1', parentId: 1, isDeleted: false },
-  { id: 3, title: '子タスク1-2', parentId: 1, isDeleted: false },
-  { id: 4, title: '親タスク2', parentId: null, isDeleted: false },
-  { id: 5, title: '孫タスク1-1-1', parentId: 2, isDeleted: false },
+  {
+    id: 1,
+    title: '親タスク1',
+    parentId: null,
+    isDeleted: false,
+    isDone: false,
+  },
+  { id: 2, title: '子タスク1-1', parentId: 1, isDeleted: false, isDone: false },
+  { id: 3, title: '子タスク1-2', parentId: 1, isDeleted: false, isDone: false },
+  {
+    id: 4,
+    title: '親タスク2',
+    parentId: null,
+    isDeleted: false,
+    isDone: false,
+  },
+  {
+    id: 5,
+    title: '孫タスク1-1-1',
+    parentId: 2,
+    isDeleted: false,
+    isDone: false,
+  },
 ];
 
 const App = () => {
@@ -95,6 +112,14 @@ const App = () => {
 
   const deletedTodos = todos.filter((todo) => todo.isDeleted);
 
+  const handleToggleDone = (id: number) => {
+    setTodos((prev) =>
+      prev.map((todo) =>
+        todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
+      )
+    );
+  };
+
   return (
     <div className="max-w-xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4 text-blue-600">階層ToDoリスト</h1>
@@ -141,6 +166,7 @@ const App = () => {
                 onUpdateTitle={handleUpdateTitle}
                 onDelete={handleDelete}
                 onRestore={handleRestore}
+                onToggleDone={handleToggleDone}
               />
             ))}
           </ul>
@@ -161,7 +187,7 @@ const App = () => {
                 <button
                   onClick={() => handleRestore(todo.id)}
                   className="text-blue-500 hover:underline text-sm"
-                  aria-label='復元'
+                  aria-label="復元"
                 >
                   <Undo2 />
                 </button>
