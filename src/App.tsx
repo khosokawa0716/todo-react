@@ -104,6 +104,24 @@ const App = () => {
     );
   };
 
+  const handleRestore = (id: number) => {
+    setTodos((prev) =>
+      prev.map((todo) =>
+        todo.id === id ? { ...todo, isDeleted: false } : todo
+      )
+    );
+  };
+
+  const deletedTodos = todos.filter((todo) => todo.isDeleted);
+
+  const handleToggleDone = (id: number) => {
+    setTodos((prev) =>
+      prev.map((todo) =>
+        todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
+      )
+    );
+  };
+
   const handleExportJson = () => {
     const dataStr = JSON.stringify(todos, null, 2);
     const blob = new Blob([dataStr], { type: 'application/json' });
@@ -125,22 +143,26 @@ const App = () => {
     URL.revokeObjectURL(url);
   };
 
-  const handleRestore = (id: number) => {
-    setTodos((prev) =>
-      prev.map((todo) =>
-        todo.id === id ? { ...todo, isDeleted: false } : todo
-      )
-    );
-  };
+  const handleImportJson = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-  const deletedTodos = todos.filter((todo) => todo.isDeleted);
-
-  const handleToggleDone = (id: number) => {
-    setTodos((prev) =>
-      prev.map((todo) =>
-        todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
-      )
-    );
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const result = e.target?.result as string;
+        const parsed = JSON.parse(result);
+        if (Array.isArray(parsed)) {
+          setTodos(parsed);
+        } else {
+          alert('読み込んだファイルの形式が正しくありません。');
+        }
+      } catch (e) {
+        alert('ファイルの読み込み中にエラーが発生しました。');
+        console.error(e);
+      }
+    };
+    reader.readAsText(file);
   };
 
   useEffect(() => {
@@ -243,6 +265,17 @@ const App = () => {
       >
         タスクをJSONでダウンロード
       </button>
+      <div className="mt-4">
+        <label className="text-sm text-blue-500 hover:underline cursor-pointer">
+          JSONファイルから読み込み
+          <input
+            type="file"
+            accept="application/json"
+            onChange={handleImportJson}
+            className="hidden"
+          />
+        </label>
+      </div>
     </div>
   );
 };
