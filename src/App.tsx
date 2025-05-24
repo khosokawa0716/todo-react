@@ -122,6 +122,12 @@ const App = () => {
     );
   };
 
+  const handleReset = () => {
+    if (confirm('本当にすべてのタスクを削除しますか？')) {
+      setTodos([]);
+    }
+  };
+
   const handleExportJson = () => {
     const dataStr = JSON.stringify(todos, null, 2);
     const blob = new Blob([dataStr], { type: 'application/json' });
@@ -260,23 +266,28 @@ const App = () => {
         </div>
       )}
       <div className="mt-6 flex flex-wrap gap-4 justify-end items-center">
-  <button
-    onClick={handleExportJson}
-    className="px-4 py-2 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition"
-  >
-    JSONでエクスポート
-  </button>
-
-  <label className="cursor-pointer px-4 py-2 bg-blue-100 text-blue-700 text-sm rounded hover:bg-blue-200 transition">
-    JSONをインポート
-    <input
-      type="file"
-      accept="application/json"
-      onChange={handleImportJson}
-      className="hidden"
-    />
-  </label>
-</div>
+        <button
+          onClick={handleExportJson}
+          className="px-4 py-2 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition"
+        >
+          JSONでエクスポート
+        </button>
+        <label className="cursor-pointer px-4 py-2 bg-blue-100 text-blue-700 text-sm rounded hover:bg-blue-200 transition">
+          JSONをインポート
+          <input
+            type="file"
+            accept="application/json"
+            onChange={handleImportJson}
+            className="hidden"
+          />
+        </label>
+        <button
+          onClick={handleReset}
+          className="px-4 py-2 bg-red-100 text-red-700 text-sm rounded hover:bg-red-200 transition"
+        >
+          タスクをすべて削除
+        </button>
+      </div>
       <div className="mt-6 text-sm text-gray-500">
         <p>
           このアプリは、階層構造のToDoリストを管理するためのものです。タスクの追加、削除、復元、並び替えが可能です。
