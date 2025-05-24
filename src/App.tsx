@@ -104,6 +104,27 @@ const App = () => {
     );
   };
 
+  const handleExportJson = () => {
+    const dataStr = JSON.stringify(todos, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const date = new Date().toLocaleDateString('ja-JP', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+    const formattedDate = date.replace(/\//g, '-'); // 日付をYYYY-MM-DD形式に変換
+    // ファイル名に日付を追加
+    const filename = `todos-${formattedDate}.json`;
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+
+    URL.revokeObjectURL(url);
+  };
+
   const handleRestore = (id: number) => {
     setTodos((prev) =>
       prev.map((todo) =>
@@ -216,6 +237,12 @@ const App = () => {
           </ul>
         </div>
       )}
+      <button
+        onClick={handleExportJson}
+        className="mt-4 text-sm text-blue-500 hover:underline"
+      >
+        タスクをJSONでダウンロード
+      </button>
     </div>
   );
 };
