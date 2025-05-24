@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TodoItem } from './types';
 import { TodoItemTree } from './components/TodoItemTree';
 import {
@@ -40,6 +40,8 @@ const initialTodos: TodoItem[] = [
     isDone: false,
   },
 ];
+
+const STORAGE_KEY = 'todo-items';
 
 const App = () => {
   const [todos, setTodos] = useState<TodoItem[]>(initialTodos);
@@ -120,8 +122,26 @@ const App = () => {
     );
   };
 
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+  }, [todos]);
+
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          setTodos(parsed);
+        }
+      } catch (e) {
+        console.error('読み込みエラー:', e);
+      }
+    }
+  }, []);
+
   return (
-    <div className="max-w-xl mx-auto p-6">
+    <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4 text-blue-600">階層ToDoリスト</h1>
 
       {/* フォーム */}
