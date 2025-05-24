@@ -1,54 +1,33 @@
-# React + TypeScript + Vite
+# 階層対応ToDoリストアプリ
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+このアプリは、階層構造に対応したToDo管理ツールです。親タスク・子タスク・孫タスクを再帰的に管理できます。
 
-Currently, two official plugins are available:
+## ✅ 主な機能
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 階層構造のタスク管理（親・子・孫）
+- タスクの追加・削除・復元・編集
+- 完了ステータスの切り替え
+- 完了タスクの表示/非表示切り替え
+- タスクのドラッグ＆ドロップによる並べ替え（DnD対応）
+- データの localStorage 自動保存
+- JSON形式でのエクスポート/インポート対応
 
-## Expanding the ESLint configuration
+## 📦 データの保存・復元
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **エクスポート**：JSONファイルとしてダウンロードできます
+- **インポート**：以前のファイルを読み込んで復元できます
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 🛠 開発環境
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- React + TypeScript + Vite
+- Tailwind CSS
+- @dnd-kit/core（並べ替え）
+- lucide-react（アイコン）
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🚀 ローカルでの起動方法
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+```bash
+git clone https://github.com/khosokawa0716/todo-react
+cd todo-react
+npm install
+npm run dev

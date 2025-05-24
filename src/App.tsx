@@ -259,22 +259,31 @@ const App = () => {
           </ul>
         </div>
       )}
-      <button
-        onClick={handleExportJson}
-        className="mt-4 text-sm text-blue-500 hover:underline"
-      >
-        タスクをJSONでダウンロード
-      </button>
-      <div className="mt-4">
-        <label className="text-sm text-blue-500 hover:underline cursor-pointer">
-          JSONファイルから読み込み
-          <input
-            type="file"
-            accept="application/json"
-            onChange={handleImportJson}
-            className="hidden"
-          />
-        </label>
+      <div className="mt-6 flex flex-wrap gap-4 justify-end items-center">
+  <button
+    onClick={handleExportJson}
+    className="px-4 py-2 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition"
+  >
+    JSONでエクスポート
+  </button>
+
+  <label className="cursor-pointer px-4 py-2 bg-blue-100 text-blue-700 text-sm rounded hover:bg-blue-200 transition">
+    JSONをインポート
+    <input
+      type="file"
+      accept="application/json"
+      onChange={handleImportJson}
+      className="hidden"
+    />
+  </label>
+</div>
+      <div className="mt-6 text-sm text-gray-500">
+        <p>
+          このアプリは、階層構造のToDoリストを管理するためのものです。タスクの追加、削除、復元、並び替えが可能です。
+        </p>
+        <p>
+          タスクは親子関係を持つことができ、子タスクを追加することもできます。削除したタスクは復元可能です。
+        </p>
       </div>
     </div>
   );
