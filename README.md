@@ -31,3 +31,8 @@ git clone https://github.com/khosokawa0716/todo-react
 cd todo-react
 npm install
 npm run dev
+```
+
+## 🔗 公開URL
+
+[アプリを開く](https://khosokawa0716.github.io/todo-react/)
